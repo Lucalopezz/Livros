@@ -23,8 +23,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         //  php artisan migrate:fresh --seed
-        // $this->call([
-        //     LivroSeeder::class,
-        // ]);
+        $this->call([
+            LivroSeeder::class,
+        ]);
     }
 }
