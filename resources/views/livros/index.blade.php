@@ -1,10 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-   
-</head>
-<body>
-    Não há livros cadastrados.
-    
-</body>
-</html>
+@extends('layouts.app')
+
+@section('content')
+<h1>Não há livros cadastrados.</h1>
+@endsection
