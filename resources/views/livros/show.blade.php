@@ -1,5 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-<h1>{{ $livro }}</h1>
+    @include('livros.partials.fields')
 @endsection

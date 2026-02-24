@@ -2,21 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Livro;
 
 class LivroController extends Controller
 {
     public function index()
     {
-        return view('livros.index');
+        $livros = Livro::all();
+
+        return view('livros.index', ['livros' => $livros]);
     }
+
     public function show($isbn)
     {
-        if ($isbn === '1234567890') {
-            $livro = 'Livro encontrado: "O Senhor dos Anéis"';
-        } else {
-            $livro = "Livro não encontrado";
-        }
+        $livro = Livro::where('isbn', $isbn)->first();
 
         return view('livros.show', ['livro' => $livro]);
     }

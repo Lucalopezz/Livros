@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-<h1>Não há livros cadastrados.</h1>
+    @forelse ($livros as $livro)
+        @include('livros.partials.fields')
+    @empty
+        <h1>Não há livros cadastrados.</h1>
+    @endforelse
 @endsection
