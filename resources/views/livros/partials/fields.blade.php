@@ -1,5 +1,7 @@
-<h1>Nome: {{ $livro->titulo ?? 'Título não disponível' }}</h1>
-<h2>ISBN: {{ $livro->isbn ?? 'ISBN não disponível' }}</h2>
+<h3>Nome: {{ $livro->titulo ?? 'Título não disponível' }}</h3>
+<p>ISBN: {{ $livro->isbn ?? 'ISBN não disponível' }}</p>
 @if ($livro && $livro->autor)
-    <h3>Autor: {{ $livro->autor ?? 'Autor não disponível' }}</h3>
+    <p>Autor: {{ $livro->autor ?? 'Autor não disponível' }}</p>
 @endif
+<hr>
+<br>
