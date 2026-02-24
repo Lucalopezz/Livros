@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Livro extends Model
 {
+    use HasFactory;
+
     protected $table = 'livros';
 
     // campos que podem ser preenchidos em massa
@@ -14,6 +17,7 @@ class Livro extends Model
         'autor',
         'isbn',
     ];
+
     // tipagem dos campos que não são string
     protected $casts = [
         'id' => 'integer',
