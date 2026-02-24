@@ -18,6 +18,10 @@ class Livro extends Model
         'autor',
         'isbn',
     ];
+    // campos que não podem ser preenchidos em massa
+    protected $guarded = [
+        'id',
+    ];
 
     // tipagem dos campos que não são string
     protected $casts = [

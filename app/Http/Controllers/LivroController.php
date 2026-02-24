@@ -32,11 +32,9 @@ class LivroController extends Controller
      */
     public function store(StoreLivroRequest $request)
     {
-        $livro = new Livro;
-        $livro->titulo = $request->input('titulo');
-        $livro->autor = $request->input('autor');
-        $livro->isbn = $request->input('isbn');
-        $livro->save();
+        $request->validated(); // aqui o Laravel já valida os dados, se não passar, ele redireciona de volta com os erros
+        // usando o método create do Eloquent, que preenche os campos em massa
+        $livro = Livro::create($request->all());
 
         return redirect("/livros/{$livro->id}");
     }
@@ -66,10 +64,8 @@ class LivroController extends Controller
      */
     public function update(UpdateLivroRequest $request, Livro $livro)
     {
-        $livro->titulo = $request->titulo;
-        $livro->autor = $request->autor;
-        $livro->isbn = $request->isbn;
-        $livro->save();
+        $request->validated(); // aqui o Laravel já valida os dados, se não passar, ele redireciona de volta com os erros
+        $livro->update($request->all());
 
         return redirect("/livros/{$livro->id}");
     }

@@ -1,4 +1,4 @@
-<h3>Nome: {{ $livro->titulo ?? 'Título não disponível' }}</h3>
+<h3><a href="{{ url('/livros/' . $livro->id) }}">{{ $livro->titulo ?? 'Título não disponível' }}</a></h3>
 <p>ISBN: {{ $livro->isbn ?? 'ISBN não disponível' }}</p>
 @if ($livro && $livro->autor)
     <p>Autor: {{ $livro->autor ?? 'Autor não disponível' }}</p>

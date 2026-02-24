@@ -25,7 +25,7 @@ class UpdateLivroRequest extends FormRequest
         return [
             'titulo' => ['required', 'string', 'max:255'],
             'autor' => ['required', 'string', 'max:255'],
-            'isbn' => ['required', 'string', 'max:20'],
+            'isbn' => ['required', 'string', 'max:20', 'unique:livros,isbn,' . $this->livro->id],
         ];
     }
 }

@@ -25,7 +25,7 @@ class StoreLivroRequest extends FormRequest
         return [
             'titulo' => ['required', 'string', 'max:255'],
             'autor' => ['nullable', 'string', 'max:255'],
-            'isbn' => ['required', 'string', 'max:20'],
+            'isbn' => ['required', 'string', 'max:20', 'unique:livros,isbn'],
         ];
     }
 }
