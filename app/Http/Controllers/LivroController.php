@@ -23,7 +23,8 @@ class LivroController extends Controller
      */
     public function create()
     {
-        //
+        // Objeto vazio para preencher o formulário reusável
+        return view('livros.create', ['livro' => new Livro]);
     }
 
     /**
@@ -31,17 +32,24 @@ class LivroController extends Controller
      */
     public function store(StoreLivroRequest $request)
     {
-        //
+        $livro = new Livro;
+        $livro->titulo = $request->input('titulo');
+        $livro->autor = $request->input('autor');
+        $livro->isbn = $request->input('isbn');
+        $livro->save();
+
+        return redirect("/livros/{$livro->id}");
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Livro $livro, $isbn)
+    public function show(Livro $livro)
     {
-        $livro = Livro::where('isbn', $isbn)->first();
-
-        return view('livros.show', ['livro' => $livro]);
+        // nem precisa buscar o livro, o Laravel já faz isso automaticamente
+        return view('livros.show', [
+            'livro' => $livro,
+        ]);
     }
 
     /**
@@ -49,7 +57,8 @@ class LivroController extends Controller
      */
     public function edit(Livro $livro)
     {
-        //
+        return view('livros.edit', ['livro' => $livro]);
+
     }
 
     /**
@@ -57,7 +66,12 @@ class LivroController extends Controller
      */
     public function update(UpdateLivroRequest $request, Livro $livro)
     {
-        //
+        $livro->titulo = $request->titulo;
+        $livro->autor = $request->autor;
+        $livro->isbn = $request->isbn;
+        $livro->save();
+
+        return redirect("/livros/{$livro->id}");
     }
 
     /**
@@ -65,6 +79,8 @@ class LivroController extends Controller
      */
     public function destroy(Livro $livro)
     {
-        //
+        $livro->delete();
+
+        return redirect('/livros');
     }
 }

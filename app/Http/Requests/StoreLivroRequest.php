@@ -11,7 +11,7 @@ class StoreLivroRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +21,11 @@ class StoreLivroRequest extends FormRequest
      */
     public function rules(): array
     {
+        // aqui definimos as regras de validação para os campos do formulário
         return [
-            //
+            'titulo' => ['required', 'string', 'max:255'],
+            'autor' => ['nullable', 'string', 'max:255'],
+            'isbn' => ['required', 'string', 'max:20'],
         ];
     }
 }
