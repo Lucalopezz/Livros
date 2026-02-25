@@ -1,6 +1,14 @@
 <?php
 
+use App\Http\Controllers\IndexController;
 use App\Http\Controllers\LivroController;
+use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 
 Route::resource('livros', LivroController::class);
+
+Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('login', [LoginController::class, 'login']);
+Route::get('/', [IndexController::class, 'index']);
+
+Route::post('logout', [LoginController::class, 'logout']);
