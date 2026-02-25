@@ -3,9 +3,6 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
-use Uspdev\Replicado\Pessoa;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -25,13 +22,12 @@ class UserFactory extends Factory
     public function definition(): array
     {
         $codpes = $this->faker->unique()->servidor();
+
         return [
-            'name' => Pessoa::obterNome($codpes),
-            'email' => Pessoa::email($codpes),
-            'email_verified_at' => now(),
-            'password' => static::$password ??= Hash::make('password'),
-            'remember_token' => Str::random(10),
             'codpes' => $codpes,
+            'name' => \Uspdev\Replicado\Pessoa::obterNome($codpes),
+            'email' => \Uspdev\Replicado\Pessoa::email($codpes),
+            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
         ];
     }
 
