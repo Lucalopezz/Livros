@@ -17,14 +17,12 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+    
 
         //  php artisan migrate:fresh --seed
         $this->call([
             LivroSeeder::class,
+            UserSeeder::class,
         ]);
     }
 }
