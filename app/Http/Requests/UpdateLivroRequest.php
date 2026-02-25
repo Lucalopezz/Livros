@@ -25,7 +25,23 @@ class UpdateLivroRequest extends FormRequest
         return [
             'titulo' => ['required', 'string', 'max:255'],
             'autor' => ['required', 'string', 'max:255'],
-            'isbn' => ['required', 'string', 'max:20', 'unique:livros,isbn,' . $this->livro->id],
+            'isbn' => ['required', 'string', 'max:20', 'unique:livros,isbn,'.$this->livro->id],
+        ];
+    }
+
+    public function messages(): array
+    {
+        // aqui podemos personalizar as mensagens de erro para cada regra de validação
+        return [
+            'titulo.required' => 'O título é obrigatório.',
+            'titulo.string' => 'O título deve ser uma string.',
+            'titulo.max' => 'O título não pode ter mais de 255 caracteres.',
+            'autor.string' => 'O autor deve ser uma string.',
+            'autor.max' => 'O autor não pode ter mais de 255 caracteres.',
+            'isbn.required' => 'O ISBN é obrigatório.',
+            'isbn.string' => 'O ISBN deve ser uma string.',
+            'isbn.max' => 'O ISBN não pode ter mais de 20 caracteres.',
+            'isbn.unique' => 'O ISBN já existe. Por favor, insira um ISBN único.',
         ];
     }
 }

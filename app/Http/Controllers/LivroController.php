@@ -32,9 +32,12 @@ class LivroController extends Controller
      */
     public function store(StoreLivroRequest $request)
     {
-        $request->validated(); // aqui o Laravel já valida os dados, se não passar, ele redireciona de volta com os erros
+        $validated = $request->validated(); // aqui o Laravel já valida os dados, se não passar, ele redireciona de volta com os erros
         // usando o método create do Eloquent, que preenche os campos em massa
-        $livro = Livro::create($request->all());
+        $livro = Livro::create($validated);
+                                    // alert-info é a msg azul e alert-danger é a msg vermelha
+        request()->session()->flash('alert-info', 'Livro criado com sucesso!');
+
 
         return redirect("/livros/{$livro->id}");
     }
@@ -64,8 +67,10 @@ class LivroController extends Controller
      */
     public function update(UpdateLivroRequest $request, Livro $livro)
     {
-        $request->validated(); // aqui o Laravel já valida os dados, se não passar, ele redireciona de volta com os erros
-        $livro->update($request->all());
+        $validated = $request->validated(); // aqui o Laravel já valida os dados, se não passar, ele redireciona de volta com os erros
+        $livro->update($validated);
+
+        request()->session()->flash('alert-info', 'Livro atualizado com sucesso!');
 
         return redirect("/livros/{$livro->id}");
     }

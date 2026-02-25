@@ -28,4 +28,31 @@ class StoreLivroRequest extends FormRequest
             'isbn' => ['required', 'string', 'max:20', 'unique:livros,isbn'],
         ];
     }
+
+    public function messages(): array
+    {
+        // aqui podemos personalizar as mensagens de erro para cada regra de validação
+        return [
+            'titulo.required' => 'O título é obrigatório.',
+            'titulo.string' => 'O título deve ser uma string.',
+            'titulo.max' => 'O título não pode ter mais de 255 caracteres.',
+            'autor.string' => 'O autor deve ser uma string.',
+            'autor.max' => 'O autor não pode ter mais de 255 caracteres.',
+            'isbn.required' => 'O ISBN é obrigatório.',
+            'isbn.string' => 'O ISBN deve ser uma string.',
+            'isbn.max' => 'O ISBN não pode ter mais de 20 caracteres.',
+            'isbn.unique' => 'O ISBN já existe. Por favor, insira um ISBN único.',
+        ];
+    }
+
+    protected function prepareForValidation()
+    {
+        // aqui podemos manipular os dados antes de serem validados, por exemplo, para remover espaços extras
+        $this->merge([
+            'titulo' => trim($this->titulo),
+            'autor' => trim($this->autor),
+            'isbn' => trim($this->isbn),
+            'isbn' => preg_replace('/[^0-9]/', '', $this->isbn),
+        ]);
+    }
 }
