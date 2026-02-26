@@ -15,6 +15,11 @@ class User extends Authenticatable
     use \Spatie\Permission\Traits\HasRoles;
     use \Uspdev\SenhaunicaSocialite\Traits\HasSenhaunica;
 
+    public function livros()
+    {
+        return $this->hasMany(Livro::class);
+    }
+
     /**
      * The attributes that are mass assignable.
      *

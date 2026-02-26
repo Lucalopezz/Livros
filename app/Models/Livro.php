@@ -10,6 +10,11 @@ class Livro extends Model
     /** @use HasFactory<\Database\Factories\LivroFactory> */
     use HasFactory;
 
+    public function user()
+    {
+        return $this->belongsTo(\App\Models\User::class);
+    }
+
     protected $table = 'livros';
 
     // campos que podem ser preenchidos em massa
@@ -18,6 +23,7 @@ class Livro extends Model
         'autor',
         'isbn',
     ];
+
     // campos que não podem ser preenchidos em massa
     protected $guarded = [
         'id',
