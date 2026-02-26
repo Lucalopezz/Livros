@@ -22,5 +22,11 @@
             <button type="submit" class="btn btn-primary">Entrar</button>
         </div>
     </div>
+    <br>
+    <div class="form-group row mb-0">
+        <div class="col-md-8 offset-md-4">
+            <a href="{{ url('/login/senhaunica') }}" class="btn btn-info">Entrar com Senha Única</a>
+        </div>
+    </div>
 </form>
 @endsection

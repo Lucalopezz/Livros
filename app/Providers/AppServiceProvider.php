@@ -14,6 +14,12 @@ class AppServiceProvider extends ServiceProvider
         //
     }
 
+    // protected $listen = [
+    //     \SocialiteProviders\Manager\SocialiteWasCalled::class => [
+    //         '\Uspdev\SenhaunicaSocialite\SenhaunicaExtendSocialite@handle',
+    //     ],
+    // ];
+
     /**
      * Bootstrap any application services.
      */
