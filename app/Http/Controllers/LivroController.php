@@ -29,6 +29,8 @@ class LivroController extends Controller
      */
     public function create()
     {
+        $this->verifyUserPermission('user');
+
         // Objeto vazio para preencher o formulário reusável
         return view('livros.create', ['livro' => new Livro]);
     }
@@ -38,6 +40,8 @@ class LivroController extends Controller
      */
     public function store(StoreLivroRequest $request)
     {
+        $this->verifyUserPermission('user');
+
         $validated = $request->validated(); // aqui o Laravel já valida os dados, se não passar, ele redireciona de volta com os erros
         $validated['user_id'] = auth()->user()->id;
         // usando o método create do Eloquent, que preenche os campos em massa
@@ -64,6 +68,8 @@ class LivroController extends Controller
      */
     public function edit(Livro $livro)
     {
+        $this->verifyUserPermission('user');
+
         return view('livros.edit', ['livro' => $livro]);
 
     }
@@ -73,6 +79,8 @@ class LivroController extends Controller
      */
     public function update(UpdateLivroRequest $request, Livro $livro)
     {
+        $this->verifyUserPermission('user');
+
         $validated = $request->validated(); // aqui o Laravel já valida os dados, se não passar, ele redireciona de volta com os erros
         $livro->update($validated);
 
@@ -86,8 +94,19 @@ class LivroController extends Controller
      */
     public function destroy(Livro $livro)
     {
+        $this->verifyUserPermission('admin');
         $livro->delete();
 
         return redirect('/livros');
+    }
+
+    protected function verifyUserPermission($permission)
+    {
+        if (! auth()->user() || ! auth()->user()->can($permission)) {
+            request()->session()->flash('alert-danger', 'Você não tem permissão para realizar essa ação!');
+
+            redirect('/livros')->send();
+            exit;
+        }
     }
 }
