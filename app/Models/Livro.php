@@ -36,4 +36,12 @@ class Livro extends Model
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
+
+    public static function tipos(): array
+    {
+        return [
+            'Nacional',
+            'Internacional',
+        ];
+    }
 }
