@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
+use App\Models\Livro;
 
 class UpdateLivroRequest extends FormRequest
 {
@@ -26,6 +28,7 @@ class UpdateLivroRequest extends FormRequest
             'titulo' => ['required', 'string', 'max:255'],
             'autor' => ['required', 'string', 'max:255'],
             'isbn' => ['required', 'string', 'max:20', 'unique:livros,isbn,'.$this->livro->id],
+            'tipo' => ['required', Rule::in(Livro::tipos())],
         ];
     }
 
@@ -42,6 +45,7 @@ class UpdateLivroRequest extends FormRequest
             'isbn.string' => 'O ISBN deve ser uma string.',
             'isbn.max' => 'O ISBN não pode ter mais de 20 caracteres.',
             'isbn.unique' => 'O ISBN já existe. Por favor, insira um ISBN único.',
+            'tipo.required' => 'O tipo é obrigatório.',
         ];
     }
 }

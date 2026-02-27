@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Livro;
 use Illuminate\Foundation\Http\FormRequest;
 
 class StoreLivroRequest extends FormRequest
@@ -26,6 +27,7 @@ class StoreLivroRequest extends FormRequest
             'titulo' => ['required', 'string', 'max:255'],
             'autor' => ['nullable', 'string', 'max:255'],
             'isbn' => ['required', 'string', 'max:20', 'unique:livros,isbn'],
+            'tipo' => ['nullable', 'string', 'in:'.implode(',', Livro::tipos())],
         ];
     }
 
@@ -42,6 +44,7 @@ class StoreLivroRequest extends FormRequest
             'isbn.string' => 'O ISBN deve ser uma string.',
             'isbn.max' => 'O ISBN não pode ter mais de 20 caracteres.',
             'isbn.unique' => 'O ISBN já existe. Por favor, insira um ISBN único.',
+            'tipo.in' => 'O tipo selecionado não é válido.',
         ];
     }
 
