@@ -5,15 +5,21 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreLivroRequest;
 use App\Http\Requests\UpdateLivroRequest;
 use App\Models\Livro;
+use Symfony\Component\HttpFoundation\Request;
 
 class LivroController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $livros = Livro::all();
+        if (isset($request->search)) {
+            $livros = Livro::where('autor', 'LIKE', "%{$request->search}%")
+                ->orWhere('titulo', 'LIKE', "%{$request->search}%")->paginate(5);
+        } else {
+            $livros = Livro::paginate(5);
+        }
 
         return view('livros.index', ['livros' => $livros]);
     }
