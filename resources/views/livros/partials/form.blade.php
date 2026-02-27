@@ -19,7 +19,13 @@
             <div class="mb-3">
                 <label for="isbn" class="form-label">ISBN</label>
                 <input type="text" id="isbn" name="isbn" class="form-control isbn"
-                    value="{{ old('isbn', $livro->isbn) }}" placeholder="Ex: 978-85-00000-00-0">
+                    value="{{ old('isbn', $livro->isbn) }}" placeholder="Ex: 978-85-00000-000">
+            </div>
+
+            <div class="mb-3">
+                <label for="preco" class="form-label">Preço</label>
+                <input type="text" id="preco" name="preco" class="form-control preco"
+                    value="{{ old('preco', $livro->preco) }}" placeholder="Ex: 29,90">
             </div>
 
             <div class="mb-4">

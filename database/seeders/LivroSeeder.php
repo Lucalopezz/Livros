@@ -16,6 +16,8 @@ class LivroSeeder extends Seeder
             'titulo' => 'Quincas Borba',
             'autor' => 'Machado de Assis',
             'isbn' => '9780195106817',
+            'tipo' => 'Nacional',
+            'preco' => 29.90,
         ];
         Livro::create($livro);
         Livro::factory()->count(10)->create();

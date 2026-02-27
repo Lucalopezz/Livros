@@ -11,11 +11,19 @@
             <strong>ISBN:</strong> {{ $livro->isbn ?? 'ISBN não disponível' }}
         </p>
 
+
         @if ($livro && $livro->autor)
             <p class="card-text mb-1">
                 <strong>Autor:</strong> {{ $livro->autor }}
             </p>
         @endif
+        <p class="card-text mb-1">
+            <strong>Preço:</strong> R$ {{ $livro->preco ?? 'Preço não disponível' }}
+        </p>
+
+        <p class="card-text text-muted mt-2">
+            <strong>Tipo:</strong> {{ $livro->tipo ?? 'Tipo não disponível' }}
+        </p>
 
         <p class="card-text text-muted mt-2">
             Cadastrado por: {{ $livro->user->name ?? 'Anônimo' }}

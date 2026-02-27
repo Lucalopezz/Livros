@@ -27,7 +27,8 @@ class StoreLivroRequest extends FormRequest
             'titulo' => ['required', 'string', 'max:255'],
             'autor' => ['nullable', 'string', 'max:255'],
             'isbn' => ['required', 'string', 'max:20', 'unique:livros,isbn'],
-            'tipo' => ['nullable', 'string', 'in:'.implode(',', Livro::tipos())],
+            'tipo' => ['required', 'string', 'in:'.implode(',', Livro::tipos())],
+            'preco' => ['required'],
         ];
     }
 
@@ -44,7 +45,9 @@ class StoreLivroRequest extends FormRequest
             'isbn.string' => 'O ISBN deve ser uma string.',
             'isbn.max' => 'O ISBN não pode ter mais de 20 caracteres.',
             'isbn.unique' => 'O ISBN já existe. Por favor, insira um ISBN único.',
+            'tipo.required' => 'O tipo é obrigatório.',
             'tipo.in' => 'O tipo selecionado não é válido.',
+            'preco.required' => 'O preço é obrigatório.',
         ];
     }
 

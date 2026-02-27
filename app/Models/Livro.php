@@ -24,6 +24,7 @@ class Livro extends Model
         'isbn',
         'user_id',
         'tipo',
+        'preco',
     ];
 
     // campos que não podem ser preenchidos em massa
@@ -44,5 +45,15 @@ class Livro extends Model
             'Nacional',
             'Internacional',
         ];
+    }
+
+    public function setPrecoAttribute($value): void
+    {
+        $this->attributes['preco'] = str_replace(',', '.', $value);
+    }
+
+    public function getPrecoAttribute($value): string
+    {
+        return number_format($value, 2, ',', '');
     }
 }

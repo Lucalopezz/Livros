@@ -25,6 +25,8 @@ class LivroFactory extends Factory
             'autor' => $this->faker->name,
             'tipo' => $tipos[array_rand($tipos)],
             'user_id' => User::factory()->create()->id,
+
+            'preco' => $this->faker->randomFloat(2, 10, 100),
         ];
     }
 }
