@@ -22,6 +22,7 @@ class Livro extends Model
         'titulo',
         'autor',
         'isbn',
+        'user_id',
     ];
 
     // campos que não podem ser preenchidos em massa

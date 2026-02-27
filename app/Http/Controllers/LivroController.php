@@ -33,11 +33,11 @@ class LivroController extends Controller
     public function store(StoreLivroRequest $request)
     {
         $validated = $request->validated(); // aqui o Laravel já valida os dados, se não passar, ele redireciona de volta com os erros
+        $validated['user_id'] = auth()->user()->id;
         // usando o método create do Eloquent, que preenche os campos em massa
         $livro = Livro::create($validated);
-                                    // alert-info é a msg azul e alert-danger é a msg vermelha
+        // alert-info é a msg azul e alert-danger é a msg vermelha
         request()->session()->flash('alert-info', 'Livro criado com sucesso!');
-
 
         return redirect("/livros/{$livro->id}");
     }
