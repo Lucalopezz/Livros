@@ -9,5 +9,7 @@ Route::resource('livros', LivroController::class);
 
 Route::get('/', [IndexController::class, 'index']);
 
-
 Route::resource('files', FileController::class);
+
+Route::post('/emprestar/{livro}', [LivroController::class, 'emprestar']);
+Route::post('/devolver/{livro}', [LivroController::class, 'devolver']);

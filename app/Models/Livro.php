@@ -20,6 +20,17 @@ class Livro extends Model
         return $this->hasMany(File::class);
     }
 
+    public function emprestimos()
+    {
+        return $this->belongsToMany(User::class, 'emprestimos')
+            ->using(Emprestimos::class)
+            ->withTimestamps()
+            ->withPivot([
+                'data_devolucao',
+                'created_at',
+            ]);
+    }
+
     protected $table = 'livros';
 
     // campos que podem ser preenchidos em massa

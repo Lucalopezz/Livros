@@ -20,6 +20,17 @@ class User extends Authenticatable
         return $this->hasMany(Livro::class);
     }
 
+    public function emprestimos()
+    {
+        return $this->belongsToMany(Livro::class, 'emprestimos')
+            ->using(Emprestimos::class)
+            ->withTimestamps()
+            ->withPivot([
+                'data_devolucao',
+                'created_at',
+            ]);
+    }
+
     /**
      * The attributes that are mass assignable.
      *

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreLivroRequest;
 use App\Http\Requests\UpdateLivroRequest;
 use App\Models\Livro;
+use App\Models\User;
 use Symfony\Component\HttpFoundation\Request;
 
 class LivroController extends Controller
@@ -108,5 +109,23 @@ class LivroController extends Controller
             redirect('/livros')->send();
             exit;
         }
+    }
+
+    public function emprestar(Request $request, Livro $livro)
+    {
+        $user = User::find($request->user_id);
+        $livro->emprestimos()->attach($user);
+
+        return redirect('/livros/'.$livro->id);
+    }
+
+    public function devolver(Request $request, Livro $livro)
+    {
+        // não quero fazer detach...
+        $livro->emprestimos()->wherePivot('data_devolucao', null)->updateExistingPivot($request->user_id, [
+            'data_devolucao' => \Carbon\Carbon::now()->toDateTimeString(),
+        ]);
+
+        return redirect('/livros/'.$livro->id);
     }
 }
