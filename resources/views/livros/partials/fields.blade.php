@@ -30,18 +30,22 @@
         </p>
 
         <div class="d-flex gap-2 mt-4">
-            <a href="{{ url('/livros/' . $livro->id . '/edit') }}" class="btn btn-outline-primary btn-sm">
-                ✏️ Editar
-            </a>
+            @can('user')
+                <a href="{{ url('/livros/' . $livro->id . '/edit') }}" class="btn btn-outline-primary btn-sm">
+                    ✏️ Editar
+                </a>
+            @endcan
 
-            <form action="{{ url('/livros/' . $livro->id) }}" method="post" onsubmit="return confirm('Tem certeza?');">
-                @csrf
-                @method('DELETE')
+            @can('admin')
+                <form action="{{ url('/livros/' . $livro->id) }}" method="post" onsubmit="return confirm('Tem certeza?');">
+                    @csrf
+                    @method('DELETE')
 
-                <button type="submit" class="btn btn-outline-danger btn-sm">
-                    🗑️ Apagar
-                </button>
-            </form>
+                    <button type="submit" class="btn btn-outline-danger btn-sm">
+                        🗑️ Apagar
+                    </button>
+                </form>
+            @endcan
         </div>
 
     </div>
