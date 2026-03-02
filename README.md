@@ -15,7 +15,7 @@ Aplicação web para gerenciar um acervo de livros e controlar empréstimos entr
 ## 🛠️ Tecnologias
 
 - **Backend**: Laravel 12
-- **Frontend**: Tailwind CSS 4, Vite
+- **Frontend**: Bootstrap 4
 - **Banco de Dados**: MySQL/PostgreSQL
 - **Autenticação**: SenhaÚnica (uspdev/senhaunica-socialite)
 - **Tema**: Laravel USP Theme (uspdev/laravel-usp-theme)
@@ -25,7 +25,7 @@ Aplicação web para gerenciar um acervo de livros e controlar empréstimos entr
 - PHP 8.2 ou superior
 - Composer
 - Node.js 18+ e npm
-- MySQL/PostgreSQL
+- MySQL
 - Git
 
 ## 🚀 Instalação e Configuração
