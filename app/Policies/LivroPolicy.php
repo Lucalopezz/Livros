@@ -4,63 +4,63 @@ namespace App\Policies;
 
 use App\Models\Livro;
 use App\Models\User;
-use Illuminate\Auth\Access\Response;
 
 class LivroPolicy
 {
     /**
-     * Determine whether the user can view any models.
+     * Listar livros (público)
      */
-    public function viewAny(User $user): bool
+    public function viewAny(?User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
-     * Determine whether the user can view the model.
+     * Ver um livro (público)
      */
-    public function view(User $user, Livro $livro): bool
+    public function view(?User $user, Livro $livro): bool
     {
-        return false;
+        return true;
     }
 
     /**
-     * Determine whether the user can create models.
+     * Criar livro (usuário logado)
      */
     public function create(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
-     * Determine whether the user can update the model.
+     * Editar livro
+     * - dono OU admin
      */
     public function update(User $user, Livro $livro): bool
     {
-        return false;
+        return $user->id === $livro->user_id || $user->can('admin');
     }
 
     /**
-     * Determine whether the user can delete the model.
+     * Excluir livro (admin)
      */
     public function delete(User $user, Livro $livro): bool
     {
-        return false;
+        return $user->can('admin');
     }
 
     /**
-     * Determine whether the user can restore the model.
+     * Emprestar livro
      */
-    public function restore(User $user, Livro $livro): bool
+    public function emprestar(User $user, Livro $livro): bool
     {
-        return false;
+        return true;
     }
 
     /**
-     * Determine whether the user can permanently delete the model.
+     * Devolver livro
      */
-    public function forceDelete(User $user, Livro $livro): bool
+    public function devolver(User $user, Livro $livro): bool
     {
-        return false;
+        return true;
     }
 }

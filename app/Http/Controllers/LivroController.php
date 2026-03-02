@@ -6,121 +6,145 @@ use App\Http\Requests\StoreLivroRequest;
 use App\Http\Requests\UpdateLivroRequest;
 use App\Models\Livro;
 use App\Models\User;
-use Symfony\Component\HttpFoundation\Request;
+use Illuminate\Http\Request;
 
 class LivroController extends Controller
 {
-
     public function __construct()
     {
+        // Usuário autenticado
         $this->middleware('can:user')->only([
-            'create', 'store', 'edit', 'update',
+            'create', 'store', 'edit', 'update', 'emprestar', 'devolver',
         ]);
 
+        // Apenas admin
         $this->middleware('can:admin')->only([
             'destroy',
         ]);
     }
 
+    /**
+     * Lista de livros (público)
+     */
     public function index(Request $request)
     {
-        if (isset($request->search)) {
-            $livros = Livro::where('autor', 'LIKE', "%{$request->search}%")
-                ->orWhere('titulo', 'LIKE', "%{$request->search}%")->paginate(5);
-        } else {
-            $livros = Livro::paginate(5);
-        }
+        $livros = Livro::when($request->search, function ($query, $search) {
+            $query->where('autor', 'LIKE', "%{$search}%")
+                ->orWhere('titulo', 'LIKE', "%{$search}%");
+        })
+            ->paginate(5);
 
-        return view('livros.index', ['livros' => $livros]);
+        return view('livros.index', compact('livros'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Formulário de criação
      */
     public function create()
     {
+        $this->authorize('create', Livro::class);
 
-        // Objeto vazio para preencher o formulário reusável
-        return view('livros.create', ['livro' => new Livro]);
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreLivroRequest $request)
-    {
-
-        $validated = $request->validated(); // aqui o Laravel já valida os dados, se não passar, ele redireciona de volta com os erros
-        $validated['user_id'] = auth()->user()->id;
-        // usando o método create do Eloquent, que preenche os campos em massa
-        $livro = Livro::create($validated);
-        // alert-info é a msg azul e alert-danger é a msg vermelha
-        request()->session()->flash('alert-info', 'Livro criado com sucesso!');
-
-        return redirect("/livros/{$livro->id}");
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Livro $livro)
-    {
-        // nem precisa buscar o livro, o Laravel já faz isso automaticamente
-        return view('livros.show', [
-            'livro' => $livro,
+        return view('livros.create', [
+            'livro' => new Livro,
         ]);
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Salva novo livro
      */
-    public function edit(Livro $livro)
+    public function store(StoreLivroRequest $request)
     {
+        $this->authorize('create', Livro::class);
 
-        return view('livros.edit', ['livro' => $livro]);
+        $validated = $request->validated();
+        $validated['user_id'] = auth()->id();
 
-    }
+        $livro = Livro::create($validated);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateLivroRequest $request, Livro $livro)
-    {
-
-        $validated = $request->validated(); // aqui o Laravel já valida os dados, se não passar, ele redireciona de volta com os erros
-        $livro->update($validated);
-
-        request()->session()->flash('alert-info', 'Livro atualizado com sucesso!');
+        session()->flash('alert-info', 'Livro criado com sucesso!');
 
         return redirect("/livros/{$livro->id}");
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Exibe um livro (público)
+     */
+    public function show(Livro $livro)
+    {
+        return view('livros.show', compact('livro'));
+    }
+
+    /**
+     * Formulário de edição
+     */
+    public function edit(Livro $livro)
+    {
+        $this->authorize('update', $livro);
+
+        return view('livros.edit', compact('livro'));
+    }
+
+    /**
+     * Atualiza o livro
+     */
+    public function update(UpdateLivroRequest $request, Livro $livro)
+    {
+        $this->authorize('update', $livro);
+
+        $livro->update($request->validated());
+
+        session()->flash('alert-info', 'Livro atualizado com sucesso!');
+
+        return redirect("/livros/{$livro->id}");
+    }
+
+    /**
+     * Remove o livro
      */
     public function destroy(Livro $livro)
     {
-        $this->verifyUserPermission('admin');
+        $this->authorize('delete', $livro);
+
         $livro->delete();
 
         return redirect('/livros');
     }
 
+    /**
+     * Emprestar livro
+     */
     public function emprestar(Request $request, Livro $livro)
     {
-        $user = User::find($request->user_id);
-        $livro->emprestimos()->attach($user);
+        $this->authorize('emprestar', $livro);
 
-        return redirect('/livros/'.$livro->id);
-    }
-
-    public function devolver(Request $request, Livro $livro)
-    {
-        // não quero fazer detach...
-        $livro->emprestimos()->wherePivot('data_devolucao', null)->updateExistingPivot($request->user_id, [
-            'data_devolucao' => \Carbon\Carbon::now()->toDateTimeString(),
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
         ]);
 
-        return redirect('/livros/'.$livro->id);
+        $user = User::find($request->user_id);
+
+        $livro->emprestimos()->attach($user);
+
+        return redirect("/livros/{$livro->id}");
+    }
+
+    /**
+     * Devolver livro
+     */
+    public function devolver(Request $request, Livro $livro)
+    {
+        $this->authorize('devolver', $livro);
+
+        $request->validate([
+            'user_id' => 'required|exists:users,id',
+        ]);
+
+        $livro->emprestimos()
+            ->wherePivot('data_devolucao', null)
+            ->updateExistingPivot($request->user_id, [
+                'data_devolucao' => now(),
+            ]);
+
+        return redirect("/livros/{$livro->id}");
     }
 }
