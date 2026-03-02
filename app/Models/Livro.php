@@ -44,9 +44,9 @@ class Livro extends Model
     ];
 
     // campos que não podem ser preenchidos em massa
-    protected $guarded = [
-        'id',
-    ];
+    // protected $guarded = [
+    //     'id',
+    // ];
 
     // tipagem dos campos que não são string
     protected $casts = [
