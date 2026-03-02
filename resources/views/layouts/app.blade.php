@@ -27,5 +27,5 @@
 
 @section('javascripts_bottom')
     @parent
-    <script type="text/javascript" src="{ { asset('js/livro.js') } }"></script>
+   <script src="{{ asset('js/livro.js') }}"></script>
 @endsection
