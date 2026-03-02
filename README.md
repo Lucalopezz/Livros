@@ -1,59 +1,219 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Gerenciador de Livros e Empréstimos
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplicação web para gerenciar um acervo de livros e controlar empréstimos entre usuários. Desenvolvida com Laravel 12, Tailwind CSS e integração com SenhaÚnica da USP.
 
-## About Laravel
+## 🎯 Funcionalidades
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- ✅ **Gerenciamento de Livros**: Criar, editar, visualizar e deletar livros
+- ✅ **Categorização**: Livros classificados por tipo/gênero
+- ✅ **Galeria de Imagens**: Upload e gerenciamento de capas e imagens dos livros
+- ✅ **Controle de Empréstimos**: Registrar empréstimos e devoluções de livros
+- ✅ **Autenticação**: Integração com SenhaÚnica dispõe da USP
+- ✅ **Autorização**: Controle de permissões por usuário
+- ✅ **Interface Responsiva**: Tema USP com Tailwind CSS
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## 🛠️ Tecnologias
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- **Backend**: Laravel 12
+- **Frontend**: Tailwind CSS 4, Vite
+- **Banco de Dados**: MySQL/PostgreSQL
+- **Autenticação**: SenhaÚnica (uspdev/senhaunica-socialite)
+- **Tema**: Laravel USP Theme (uspdev/laravel-usp-theme)
 
-## Learning Laravel
+## 📋 Pré-requisitos
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+- PHP 8.2 ou superior
+- Composer
+- Node.js 18+ e npm
+- MySQL/PostgreSQL
+- Git
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## 🚀 Instalação e Configuração
 
-## Laravel Sponsors
+### 1. Clone o repositório
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+```bash
+git clone <url-do-repositorio>
+cd livros
+```
 
-### Premium Partners
+### 2. Instale as dependências PHP
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+```bash
+composer install
+```
 
-## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 3. Copie o arquivo de configuração
 
-## Code of Conduct
+```bash
+cp .env.example .env
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### 4. Gere a chave de aplicação
 
-## Security Vulnerabilities
+```bash
+php artisan key:generate
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### 5. Configure o banco de dados
 
-## License
+Edite o arquivo `.env` com suas credenciais:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```env
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=livros
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+### 6. Execute as migrações e seeders
+
+```bash
+php artisan migrate:fresh --seed
+```
+
+### 7. Inicie o servidor
+
+```bash
+php artisan serve
+```
+
+A aplicação estará disponível em `http://localhost:8000`
+
+## 📂 Estrutura do Projeto
+
+```
+app/
+├── Http/
+│   ├── Controllers/        # Controllers da aplicação
+│   └── Requests/          # Form Requests com validação
+├── Models/                # Modelos do banco de dados
+│   ├── Livro.php
+│   ├── File.php
+│   ├── Emprestimos.php
+│   └── User.php
+└── Policies/              # Políticas de autorização
+
+database/
+├── migrations/            # Migrações do banco
+├── seeders/              # Seeders para dados iniciais
+└── factories/            # Factories para testes
+
+resources/
+├── views/                # Templates Blade
+│   ├── layouts/         # Layout principal
+│   ├── livros/          # Views de livros
+│   └── files/           # Views de arquivos
+
+
+routes/
+├── web.php              # Rotas web
+└── console.php          # Comandos Artisan
+```
+
+## 🔧 Modelos Principais
+
+### Livro
+
+Representa um livro no acervo com informações como título, autor, preço e tipo.
+
+```php
+- titulo: string
+- autor: string
+- descricao: text
+- preco: decimal
+- tipo: string
+- user_id: foreign key (proprietário)
+```
+
+**Relacionamentos**:
+- `user()`: BelongsTo - Usuário proprietário
+- `files()`: HasMany - Imagens/arquivos do livro
+- `emprestimos()`: BelongsToMany - Empréstimos registrados
+
+### File
+
+Representa arquivos (imagens) associados aos livros.
+
+```php
+- name: string
+- path: string
+- livro_id: foreign key
+```
+
+### Emprestimos
+
+Registro de empréstimos entre usuários com controle de devolução.
+
+```php
+- livro_id: foreign key
+- user_id: foreign key (quem pegou emprestado)
+- data_devolucao: date
+```
+
+### User
+
+Usuário do sistema com integração SenhaÚnica.
+
+```php
+- name: string
+- email: email
+- codpes: string (código USP)
+- email_usp: string
+```
+
+## 📚 Rotas Principais
+
+```
+GET  /                    # Página inicial
+GET  /livros              # Listar livros
+POST /livros              # Criar livro
+GET  /livros/{id}         # Detalhes do livro
+PUT  /livros/{id}         # Atualizar livro
+DELETE /livros/{id}       # Deletar livro
+
+POST /emprestar/{livro}   # Registrar empréstimo
+POST /devolver/{livro}    # Registrar devolução
+
+POST /files               # Upload de arquivo
+DELETE /files/{id}        # Deletar arquivo
+```
+
+## 📝 Bibliotecas Usadas
+
+- **uspdev/laravel-usp-theme** — Tema institucional da USP
+- **uspdev/senhaunica-socialite** — Autenticação via SenhaÚnica USP
+- **uspdev/laravel-usp-faker** — Geradores de dados fake no padrão USP
+
+
+
+## 📝 Variáveis de Ambiente Importantes
+
+```env
+APP_NAME=Livros
+APP_ENV=local
+APP_DEBUG=true
+
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_DATABASE=livros
+
+APP_URL=http://localhost:8000
+
+# Credenciais/informações do oauth
+SENHAUNICA_KEY
+SENHAUNICA_SECRET
+SENHAUNICA_CALLBACK_ID
+
+REPLICADO_HOST
+REPLICADO_PORT
+REPLICADO_DATABASE
+REPLICADO_USERNAME
+REPLICADO_PASSWORD
+REPLICADO_CODUNDCLG
+REPLICADO_SYBASE
+
+```
