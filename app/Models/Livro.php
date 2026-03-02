@@ -15,6 +15,11 @@ class Livro extends Model
         return $this->belongsTo(\App\Models\User::class);
     }
 
+    public function files()
+    {
+        return $this->hasMany(File::class);
+    }
+
     protected $table = 'livros';
 
     // campos que podem ser preenchidos em massa
